@@ -46,7 +46,7 @@ class _SoundPlayerPageState extends State<SoundPlayerPage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(widget.sound.name),
+          title: Text(widget.sound.name!),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -58,6 +58,7 @@ class _SoundPlayerPageState extends State<SoundPlayerPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              const Placeholder(),
               const Spacer(),
               ValueListenableBuilder<ProgressBarState>(
                   valueListenable: _audioManager.progressNotifier,

@@ -17,7 +17,7 @@ class SoundItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     IconData iconData;
-    if (!sound.isFavorite) {
+    if (!sound.isFavorite!) {
       iconData = Icons.favorite;
     } else {
       iconData = Icons.favorite_border;
@@ -28,13 +28,13 @@ class SoundItem extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
         child: Text(
-          sound.name[0],
+          sound.name![0],
           style: const TextStyle(
             color: Colors.white,
           ),
         ),
       ),
-      title: Text(sound.name),
+      title: Text(sound.name!),
     );
   }
 }

@@ -25,11 +25,12 @@ class AudioPlayerManager extends BackgroundAudioTask {
   final loopButtonNotifier = ValueNotifier<AudioRepeatModeState>(AudioRepeatModeState.none);
 
   Future<void> setAudioSource(Sound sound) async {
+
     await audioPlayer.setAudioSource(AudioSource.uri(
-      Uri.parse(sound.url),
+      Uri.parse(sound.audioUrl!),
       tag: MediaItem(
           id: '${ObjectKey(sound)}',
-          title: sound.name,
+          title: sound.name!,
       ),
     ));
     _init();
