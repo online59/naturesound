@@ -32,23 +32,18 @@ class NatureSoundPlayerApp extends StatefulWidget {
 }
 
 class _NatureSoundPlayerAppState extends State<NatureSoundPlayerApp> {
-  final _audioService = AudioService();
-  final List<Sound> _soundList = [];
-
-  void _getData() {
-    _audioService.read('audio').then((sounds) {
-      setState(() {
-        _soundList.addAll(sounds);
-      });
-    });
-  }
+  
+  // Change notifier object
+  var _audioServiceState = context.watch<FirebaseServiceState>();
   
   @override
   void initState() {
     super.initState();
-    _getData();
+    
+    // Request data from firebase
+    _audioServiceState.getData();
   }
-
+  
   @override
   Widget build(BuildContext context) {
 
@@ -57,7 +52,7 @@ class _NatureSoundPlayerAppState extends State<NatureSoundPlayerApp> {
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)),
-      home: HomePage(sounds: _soundList),
+      home: HomePage(sounds: _audioServiceState.sounds),
     );
   }
 }
