@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greentie/service/audio_manager.dart';
+import 'package:image_network/image_network.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 
@@ -58,7 +59,10 @@ class _SoundPlayerPageState extends State<SoundPlayerPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              const Placeholder(),
+              ImageNetwork(
+                  image: widget.sound.imageUrl!,
+                  height: double.infinity,
+                  width: double.infinity),
               const Spacer(),
               ValueListenableBuilder<ProgressBarState>(
                   valueListenable: _audioManager.progressNotifier,

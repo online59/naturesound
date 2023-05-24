@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:greentie/firebase_options.dart';
-import 'package:greentie/service/firebase_service.dart';
+import 'package:greentie/service/audio_service.dart';
 import 'package:greentie/ui/home/home_page.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'data/Sound.dart';
+import 'in_nature_app.dart';
 
 Future<void> main() async {
   // Require to init firebase service
@@ -19,40 +20,7 @@ Future<void> main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  
+
   // Run app
-  runApp(const NatureSoundPlayerApp());
-}
-
-class NatureSoundPlayerApp extends StatefulWidget {
-  const NatureSoundPlayerApp({super.key});
-
-  @override
-  State<NatureSoundPlayerApp> createState() => _NatureSoundPlayerAppState();
-}
-
-class _NatureSoundPlayerAppState extends State<NatureSoundPlayerApp> {
-  
-  // Change notifier object
-  var _audioServiceState = context.watch<FirebaseServiceState>();
-  
-  @override
-  void initState() {
-    super.initState();
-    
-    // Request data from firebase
-    _audioServiceState.getData();
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-
-    return MaterialApp(
-      title: "Nature Sounds",
-      theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)),
-      home: HomePage(sounds: _audioServiceState.sounds),
-    );
-  }
+  runApp(const InNatureApp());
 }
