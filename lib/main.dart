@@ -19,6 +19,8 @@ Future<void> main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
+  
+  // Run app
   runApp(const NatureSoundPlayerApp());
 }
 
@@ -40,10 +42,15 @@ class _NatureSoundPlayerAppState extends State<NatureSoundPlayerApp> {
       });
     });
   }
+  
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _getData();
 
     return MaterialApp(
       title: "Nature Sounds",
