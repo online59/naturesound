@@ -30,3 +30,18 @@ class AudioService {
     return List.from(data.docs.map((doc) => Sound.fromFirestore(doc, null)));
   }
 }
+
+
+// State monitoring service
+class FirebaseServiceState extends ChangeNotifier {
+  var List<Sound> sounds = [];
+  
+  // Retreive data from firebase firestore asynchronously
+  void getData() async {
+    var audioService = AudioService();
+    await audioService.read('audio').then((values) {
+      sounds.addAll(values);
+      notifyListeners(); // When all data retreived, notify all listeners
+    });
+  }
+}
