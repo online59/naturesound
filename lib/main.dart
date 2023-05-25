@@ -9,6 +9,10 @@ import 'data/Sound.dart';
 import 'in_nature_app.dart';
 
 Future<void> main() async {
+
+  // Because the main app is run in async, so ensure initialization
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Require to init firebase service
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

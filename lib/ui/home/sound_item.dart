@@ -16,25 +16,36 @@ class SoundItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData iconData;
-    if (!sound.isFavorite!) {
-      iconData = Icons.favorite;
-    } else {
-      iconData = Icons.favorite_border;
-    }
+    final theme = Theme.of(context);
 
-    return ListTile(
+    final testStyle = theme.textTheme.displaySmall!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return GestureDetector(
       onTap: () => onSoundSelect(sound),
-      leading: CircleAvatar(
-        backgroundColor: _getColor(context),
-        child: Text(
-          sound.name![0],
-          style: const TextStyle(
-            color: Colors.white,
-          ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 64,
+              height: 64,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'images/rain_1.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+            Text(sound.name!),
+          ],
         ),
       ),
-      title: Text(sound.name!),
     );
   }
 }

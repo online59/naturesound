@@ -45,82 +45,91 @@ class _SoundPlayerPageState extends State<SoundPlayerPage> {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.sound.name!),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
+      home: buildScaffold(context),
+    );
+  }
+
+  Scaffold buildScaffold(BuildContext context) {
+    return Scaffold(
+      appBar: buildAppBar(context),
+      body: buildBody(),
+    );
+  }
+
+  Padding buildBody() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          Image.asset('images/rain_1.png'),
+          const Spacer(),
+          ValueListenableBuilder<ProgressBarState>(
+              valueListenable: _audioManager.progressNotifier,
+              builder: (_, value, __) {
+                return ProgressBar(
+                  progress: value.current,
+                  buffered: value.buffered,
+                  total: value.total,
+                  onSeek: _audioManager.seek,
+                );
+              }),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ImageNetwork(
-                  image: widget.sound.imageUrl!,
-                  height: double.infinity,
-                  width: double.infinity),
-              const Spacer(),
-              ValueListenableBuilder<ProgressBarState>(
-                  valueListenable: _audioManager.progressNotifier,
+              ValueListenableBuilder<MediaButtonState>(
+                  valueListenable: _audioManager.mediaButtonNotifier,
                   builder: (_, value, __) {
-                    return ProgressBar(
-                      progress: value.current,
-                      buffered: value.buffered,
-                      total: value.total,
-                      onSeek: _audioManager.seek,
-                    );
-                  }),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ValueListenableBuilder<MediaButtonState>(
-                      valueListenable: _audioManager.mediaButtonNotifier,
-                      builder: (_, value, __) {
-                        switch (value) {
-                          case MediaButtonState.loading:
-                            return Container(
-                              margin: const EdgeInsets.all(8),
-                              width: 32,
-                              height: 32,
-                              child: const CircularProgressIndicator(),
-                            );
-                          case MediaButtonState.paused:
-                            return IconButton(
-                              icon: const Icon(Icons.play_arrow),
-                              iconSize: 32,
-                              onPressed: () => _audioManager.play(),
-                            );
-                          case MediaButtonState.playing:
-                            return IconButton(
-                              icon: const Icon(Icons.pause),
-                              iconSize: 32,
-                              onPressed: () => _audioManager.pause(),
-                            );
-                        }
-                      }),
-                  const SizedBox(
-                    width: 8.0,
-                  ),
-                  ValueListenableBuilder<AudioRepeatModeState>(
-                      valueListenable: _audioManager.loopButtonNotifier,
-                      builder: (_, value, __) {
-                        return IconButton(
-                          icon: const Icon(Icons.loop),
-                          isSelected: isLoopPlay,
-                          iconSize: 24,
-                          onPressed: () =>
-                              _audioManager.loop(_handlingLoopPlayButton()),
+                    switch (value) {
+                      case MediaButtonState.loading:
+                        return Container(
+                          margin: const EdgeInsets.all(8),
+                          width: 32,
+                          height: 32,
+                          child: const CircularProgressIndicator(),
                         );
-                      })
-                ],
-              )
+                      case MediaButtonState.paused:
+                        return IconButton(
+                          icon: const Icon(Icons.play_arrow),
+                          iconSize: 32,
+                          onPressed: () => _audioManager.play(),
+                        );
+                      case MediaButtonState.playing:
+                        return IconButton(
+                          icon: const Icon(Icons.pause),
+                          iconSize: 32,
+                          onPressed: () => _audioManager.pause(),
+                        );
+                    }
+                  }),
+              const SizedBox(
+                width: 8.0,
+              ),
+              ValueListenableBuilder<AudioRepeatModeState>(
+                  valueListenable: _audioManager.loopButtonNotifier,
+                  builder: (_, value, __) {
+                    return IconButton(
+                      icon: const Icon(Icons.loop),
+                      isSelected: isLoopPlay,
+                      iconSize: 24,
+                      onPressed: () =>
+                          _audioManager.loop(_handlingLoopPlayButton()),
+                    );
+                  })
             ],
-          ),
-        ),
+          )
+        ],
+      ),
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(widget.sound.name!),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
     );
   }
